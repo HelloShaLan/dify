@@ -161,7 +161,7 @@ class ModelInstance:
         :return: full response or stream response chunk generator result
         """
         if not isinstance(self.model_type_instance, LargeLanguageModel):
-            raise Exception("Model type instance is not LargeLanguageModel")
+            raise Exception("模型类型实例不是 LargeLanguageModel")
         return cast(
             Union[LLMResult, Generator],
             self._round_robin_invoke(
@@ -189,7 +189,7 @@ class ModelInstance:
         :return:
         """
         if not isinstance(self.model_type_instance, LargeLanguageModel):
-            raise Exception("Model type instance is not LargeLanguageModel")
+            raise Exception("模型类型实例不是 LargeLanguageModel")
         return cast(
             int,
             self._round_robin_invoke(
@@ -213,7 +213,7 @@ class ModelInstance:
         :return: embeddings result
         """
         if not isinstance(self.model_type_instance, TextEmbeddingModel):
-            raise Exception("Model type instance is not TextEmbeddingModel")
+            raise Exception("模型类型实例不是 TextEmbeddingModel")
         return cast(
             EmbeddingResult,
             self._round_robin_invoke(
@@ -241,7 +241,7 @@ class ModelInstance:
         :return: embeddings result
         """
         if not isinstance(self.model_type_instance, TextEmbeddingModel):
-            raise Exception("Model type instance is not TextEmbeddingModel")
+            raise Exception("模型类型实例不是 TextEmbeddingModel")
         return cast(
             EmbeddingResult,
             self._round_robin_invoke(
@@ -262,7 +262,7 @@ class ModelInstance:
         :return:
         """
         if not isinstance(self.model_type_instance, TextEmbeddingModel):
-            raise Exception("Model type instance is not TextEmbeddingModel")
+            raise Exception("模型类型实例不是 TextEmbeddingModel")
         return cast(
             list[int],
             self._round_robin_invoke(
@@ -292,7 +292,7 @@ class ModelInstance:
         :return: rerank result
         """
         if not isinstance(self.model_type_instance, RerankModel):
-            raise Exception("Model type instance is not RerankModel")
+            raise Exception("模型类型实例不是 RerankModel")
         return cast(
             RerankResult,
             self._round_robin_invoke(
@@ -326,7 +326,7 @@ class ModelInstance:
         :return: rerank result
         """
         if not isinstance(self.model_type_instance, RerankModel):
-            raise Exception("Model type instance is not RerankModel")
+            raise Exception("模型类型实例不是 RerankModel")
         return cast(
             RerankResult,
             self._round_robin_invoke(
@@ -350,7 +350,7 @@ class ModelInstance:
         :return: false if text is safe, true otherwise
         """
         if not isinstance(self.model_type_instance, ModerationModel):
-            raise Exception("Model type instance is not ModerationModel")
+            raise Exception("模型类型实例不是 ModerationModel")
         return cast(
             bool,
             self._round_robin_invoke(
@@ -371,7 +371,7 @@ class ModelInstance:
         :return: text for given audio file
         """
         if not isinstance(self.model_type_instance, Speech2TextModel):
-            raise Exception("Model type instance is not Speech2TextModel")
+            raise Exception("模型类型实例不是 Speech2TextModel")
         return cast(
             str,
             self._round_robin_invoke(
@@ -394,7 +394,7 @@ class ModelInstance:
         :return: text for given audio file
         """
         if not isinstance(self.model_type_instance, TTSModel):
-            raise Exception("Model type instance is not TTSModel")
+            raise Exception("模型类型实例不是 TTSModel")
         return cast(
             Iterable[bytes],
             self._round_robin_invoke(
@@ -424,7 +424,7 @@ class ModelInstance:
             lb_config = self.load_balancing_manager.fetch_next()
             if not lb_config:
                 if not last_exception:
-                    raise ProviderTokenNotInitError("Model credentials is not initialized.")
+                    raise ProviderTokenNotInitError("模型凭据未初始化。")
                 else:
                     raise last_exception
 
@@ -470,7 +470,7 @@ class ModelInstance:
         :return: tts model voices
         """
         if not isinstance(self.model_type_instance, TTSModel):
-            raise Exception("Model type instance is not TTSModel")
+            raise Exception("模型类型实例不是 TTSModel")
         return self.model_type_instance.get_tts_model_voices(
             model=self.model_name, credentials=self.credentials, language=language
         )

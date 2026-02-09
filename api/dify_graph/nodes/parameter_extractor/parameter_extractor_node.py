@@ -164,12 +164,12 @@ class ParameterExtractorNode(Node[ParameterExtractorNodeData]):
 
         model_instance = self._model_instance
         if not isinstance(model_instance.model_type_instance, LargeLanguageModel):
-            raise InvalidModelTypeError("Model is not a Large Language Model")
+            raise InvalidModelTypeError("模型不是大语言模型")
 
         try:
             model_schema = llm_utils.fetch_model_schema(model_instance=model_instance)
         except ValueError as exc:
-            raise ModelSchemaNotFoundError("Model schema not found") from exc
+            raise ModelSchemaNotFoundError("模型架构未找到") from exc
         memory = self._memory
 
         if (
@@ -550,7 +550,7 @@ class ParameterExtractorNode(Node[ParameterExtractorNodeData]):
 
     def _validate_result(self, data: ParameterExtractorNodeData, result: dict):
         if len(data.parameters) != len(result):
-            raise InvalidNumberOfParametersError("Invalid number of parameters")
+            raise InvalidNumberOfParametersError("无效的参数数量")
 
         for parameter in data.parameters:
             if parameter.required and parameter.name not in result:
@@ -656,7 +656,7 @@ class ParameterExtractorNode(Node[ParameterExtractorNodeData]):
                 elif parameter.type == SegmentType.BOOLEAN:
                     transformed_result[parameter.name] = False
                 else:
-                    raise AssertionError("this statement should be unreachable.")
+                    raise AssertionError("此语句不应被执行。")
 
         return transformed_result
 
@@ -782,7 +782,7 @@ class ParameterExtractorNode(Node[ParameterExtractorNodeData]):
         try:
             model_schema = llm_utils.fetch_model_schema(model_instance=model_instance)
         except ValueError as exc:
-            raise ModelSchemaNotFoundError("Model schema not found") from exc
+            raise ModelSchemaNotFoundError("模型架构未找到") from exc
         prompt_transform = AdvancedPromptTransform(with_variable_tmpl=True)
 
         if set(model_schema.features or []) & {ModelFeature.TOOL_CALL, ModelFeature.MULTI_TOOL_CALL}:

@@ -86,7 +86,7 @@ class Executor:
         # If authorization API key is present, convert the API key using the variable pool
         if node_data.authorization.type == "api-key":
             if node_data.authorization.config is None:
-                raise AuthorizationConfigError("authorization config is required")
+                raise AuthorizationConfigError("授权配置为必填项")
             node_data.authorization.config.api_key = variable_pool.convert_template(
                 node_data.authorization.config.api_key
             ).text
@@ -133,9 +133,9 @@ class Executor:
 
         # check if url is a valid URL
         if not self.url:
-            raise InvalidURLError("url is required")
+            raise InvalidURLError("URL 为必填项")
         if not self.url.startswith(("http://", "https://")):
-            raise InvalidURLError("url should start with http:// or https://")
+            raise InvalidURLError("URL 应以 http:// 或 https:// 开头")
 
     def _init_params(self):
         """
@@ -191,11 +191,11 @@ class Executor:
                     self.content = ""
                 case "raw-text":
                     if len(data) != 1:
-                        raise RequestBodyError("raw-text body type should have exactly one item")
+                        raise RequestBodyError("raw-text 请求体类型应恰好有一个条目")
                     self.content = self.variable_pool.convert_template(data[0].value).text
                 case "json":
                     if len(data) != 1:
-                        raise RequestBodyError("json body type should have exactly one item")
+                        raise RequestBodyError("JSON 请求体类型应恰好有一个条目")
                     json_string = self.variable_pool.convert_template(data[0].value).text
                     try:
                         repaired = repair_json(json_string)
@@ -206,7 +206,7 @@ class Executor:
                     # self.json = self._parse_object_contains_variables(json_object)
                 case "binary":
                     if len(data) != 1:
-                        raise RequestBodyError("binary body type should have exactly one item")
+                        raise RequestBodyError("binary 请求体类型应恰好有一个条目")
                     file_selector = data[0].file
                     file_variable = self.variable_pool.get_file(file_selector)
                     if file_variable is None:
@@ -276,9 +276,9 @@ class Executor:
         headers = deepcopy(self.headers) or {}
         if self.auth.type == "api-key":
             if self.auth.config is None:
-                raise AuthorizationConfigError("self.authorization config is required")
+                raise AuthorizationConfigError("self.authorization 配置为必填项")
             if authorization.config is None:
-                raise AuthorizationConfigError("authorization config is required")
+                raise AuthorizationConfigError("授权配置为必填项")
 
             if not authorization.config.header:
                 authorization.config.header = "Authorization"
@@ -461,7 +461,7 @@ class Executor:
                 body_string = json.dumps(self.json)
             elif self.node_data.body.type == "raw-text":
                 if len(self.node_data.body.data) != 1:
-                    raise RequestBodyError("raw-text body type should have exactly one item")
+                    raise RequestBodyError("raw-text 请求体类型应恰好有一个条目")
                 body_string = self.node_data.body.data[0].value
         if body_string:
             raw += f"Content-Length: {len(body_string)}\r\n"

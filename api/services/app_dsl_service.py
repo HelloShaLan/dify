@@ -234,7 +234,7 @@ class AppDslService:
                     return Import(
                         id=import_id,
                         status=ImportStatus.FAILED,
-                        error="App not found",
+                        error="应用未找到",
                     )
 
                 if app.mode not in [AppMode.WORKFLOW, AppMode.ADVANCED_CHAT]:
@@ -424,7 +424,7 @@ class AppDslService:
         app_data = data.get("app", {})
         app_mode = app_data.get("mode")
         if not app_mode:
-            raise ValueError("loss app mode")
+            raise ValueError("缺失应用模式")
         app_mode = AppMode(app_mode)
 
         # Set icon type
@@ -446,7 +446,7 @@ class AppDslService:
             app.updated_at = naive_utc_now()
         else:
             if account.current_tenant_id is None:
-                raise ValueError("Current tenant is not set")
+                raise ValueError("当前租户未设置")
 
             # Create new app
             app = App()
@@ -480,7 +480,7 @@ class AppDslService:
         if app_mode in {AppMode.ADVANCED_CHAT, AppMode.WORKFLOW}:
             workflow_data = data.get("workflow")
             if not workflow_data or not isinstance(workflow_data, dict):
-                raise ValueError("Missing workflow data for workflow/advanced chat app")
+                raise ValueError("工作流/高级聊天应用缺少工作流数据")
 
             environment_variables_list = workflow_data.get("environment_variables", [])
             environment_variables = [
@@ -519,7 +519,7 @@ class AppDslService:
             # Initialize model config
             model_config = data.get("model_config")
             if not model_config or not isinstance(model_config, dict):
-                raise ValueError("Missing model_config for chat/agent-chat/completion app")
+                raise ValueError("聊天/智能体/补全应用缺少 model_config")
             # Initialize or update model config
             if not app.app_model_config:
                 app_model_config = AppModelConfig(
@@ -531,7 +531,7 @@ class AppDslService:
                 self._session.add(app_model_config)
                 app_model_config_was_updated.send(app, app_model_config=app_model_config)
         else:
-            raise ValueError("Invalid app mode")
+            raise ValueError("无效的应用模式")
         return app
 
     @classmethod
@@ -578,7 +578,7 @@ class AppDslService:
         workflow_service = WorkflowService()
         workflow = workflow_service.get_draft_workflow(app_model, workflow_id)
         if not workflow:
-            raise ValueError("Missing draft workflow configuration, please check.")
+            raise ValueError("缺少草稿工作流配置，请检查。")
 
         workflow_dict = workflow.to_dict(include_secret=include_secret)
         # TODO: refactor: we need a better way to filter workspace related data from nodes
@@ -629,7 +629,7 @@ class AppDslService:
         """
         app_model_config = app_model.app_model_config
         if not app_model_config:
-            raise ValueError("Missing app configuration, please check.")
+            raise ValueError("缺少应用配置，请检查。")
 
         model_config = app_model_config.to_dict()
 

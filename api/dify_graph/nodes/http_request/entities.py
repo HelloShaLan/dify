@@ -33,7 +33,7 @@ class HttpRequestNodeAuthorization(BaseModel):
             return None
         else:
             if not v or not isinstance(v, dict):
-                raise ValueError("config should be a dict")
+                raise ValueError("配置应为字典类型")
 
             return v
 
