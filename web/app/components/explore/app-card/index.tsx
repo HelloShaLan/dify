@@ -82,7 +82,7 @@ const AppCard = ({
             }
             {
               isTrialApp && (
-                <Button className=\"h-7\" onClick={handleTryApp}>
+                <Button className="h-7" onClick={handleTryApp}>
                   <RiInformation2Line className="mr-1 size-4" />
                   <span>{t('appCard.try', { ns: 'explore' })}</span>
                 </Button>
